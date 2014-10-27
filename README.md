@@ -1,4 +1,4 @@
-geobricks_modis
+Geobricks MODIS
 ===============
 
 MODIS plug-in for Geobricks downloader.
