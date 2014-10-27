@@ -5,7 +5,7 @@ The MODIS plug-in for the Geobricks downloader provides methods to explore the M
 
 <html>
 <head>
-  <script src='https://raw.githubusercontent.com/mkao006/policy_recommendation_engine/master/playground/js/libs/d3.js'></script>
+<script src='https://raw.githubusercontent.com/mkao006/policy_recommendation_engine/master/playground/js/libs/d3.js'></script>
 </head>
 <body>
 <h1>test</h1>
