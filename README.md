@@ -3,7 +3,6 @@ Geobricks MODIS
 The MODIS plug-in for the Geobricks downloader provides methods to explore the MODIS FTP and to create lists of layers, filtered on the users selection, to be downloaded. As istance, the following represents the list of MODIS tiles covering Angola for the MOD13Q1 product on January 1st 2002:
 ```json
 [
-
     {
         "file_name": "MOD13Q1.A2012001.h19v09.005.2012019104600.hdf",
         "size": "196646026",
@@ -28,7 +27,6 @@ The MODIS plug-in for the Geobricks downloader provides methods to explore the M
         "file_path": "ftp://ladsweb.nascom.nasa.gov/allData/5/MOD13Q1/2012/001/MOD13Q1.A2012001.h20v10.005.2012019104512.hdf",
         "label": "H 20, V 10 (240.26 MB)"
     }
-
 ]
 ```
 Please check the [examples](https://github.com/geobricks/geobricks_modis/tree/master/examples) section for further details.
