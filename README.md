@@ -1,6 +1,6 @@
 Geobricks MODIS
 ===============
-The MODIS plug-in for the Geobricks downloader provides methods to explore the MODIS FTP and to create lists of layers, filtered on the users selection, to be downloaded. As istance, the following represents the list of MODIS tiles covering Angola for the MOD13Q1 product on January 1st 2002:
+The MODIS plug-in for the Geobricks downloader provides methods to filter the MODIS FTP based on the product code, the datetime and the geographic area. As istance, the following represents the list of MODIS tiles covering Angola for the MOD13Q1 product on January 1st 2002:
 ```json
 [
     {
