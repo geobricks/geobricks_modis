@@ -49,3 +49,6 @@ from geobricks_modis.core import modis_core as c
 
 layers = c.list_layers_countries_subset('MOD13A2', '2010', '001', '8,1')
 ```
+Get layers by country ISO2 code
+-------------------------------
+TBD.
