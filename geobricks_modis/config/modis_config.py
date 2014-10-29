@@ -11,13 +11,18 @@ config = {
         "target_dir": "/home/kalimaha/Desktop/MODIS",
         "folders": [
             {
-                "folder_name": "{{product}}",
+                "folder_name": "{{target}}",
                 "folders": [
                     {
-                        "folder_name": "{{year}}",
+                        "folder_name": "{{product}}",
                         "folders": [
                             {
-                                "folder_name": "{{day}}"
+                                "folder_name": "{{year}}",
+                                "folders": [
+                                    {
+                                        "folder_name": "{{day}}"
+                                    }
+                                ]
                             }
                         ]
                     }

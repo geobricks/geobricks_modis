@@ -138,7 +138,7 @@ def list_layers(product_name, year, day):
                     'file_name': file_name,
                     'file_path': file_path,
                     'label': label,
-                    'size': size
+                    'size': None
                 })
         except:
             pass
@@ -189,7 +189,7 @@ def list_layers_subset(product_name, year, day, from_h, to_h, from_v, to_v):
                             'file_name': file_name,
                             'file_path': file_path,
                             'label': label,
-                            'size': size
+                            'size': None
                         })
             except:
                 pass
