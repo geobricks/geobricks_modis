@@ -224,13 +224,13 @@ def list_layers_countries_subset(product_name, year, day, countries):
     Filter MODIS tiles based on the product, the year, the day and the country. Country codes can be in GAUL,
     ISO2, ISO3 or a combination of the previous.
     @param product_name: e.g. 'mod13q1'
-    @type product_name: String
+    @type product_name: str
     @param year: e.g. '2010'
-    @type year: String
+    @type year: str
     @param day: Day of the year, e.g. '047'
-    @type day: String
+    @type day: str
     @param countries: Comma separated string containing country codes in GAUL, ISO2 or ISO3. e.g. '8,IT,FRA'
-    @type countries: String
+    @type countries: str
     @return: Array of objects.
     """
     out = []
@@ -252,7 +252,7 @@ def list_layers_countries_subset_gaul(product_name, year, day, countries):
     @param year: e.g. '2010'
     @param day: Day of the year, three digits, e.g. '017'
     @param countries: GAUL codes, comma separated e.g. '18,25,34'
-    @type countries: String, comma separated
+    @type countries: str
     @return: An array of code/label/size objects.
     """
     countries_list = countries.split(',')
@@ -281,7 +281,7 @@ def list_layers_countries_subset_iso2(product_name, year, day, countries):
     @param year: e.g. '2010'
     @param day: Day of the year, three digits, e.g. '017'
     @param countries: ISO2 codes, comma separated e.g. 'IT,FR'
-    @type countries: String, comma separated
+    @type countries: str
     @return: An array of code/label/size objects.
     """
     countries_list = countries.split(',')
@@ -310,7 +310,7 @@ def list_layers_countries_subset_iso3(product_name, year, day, countries):
     @param year: e.g. '2010'
     @param day: Day of the year, three digits, e.g. '017'
     @param countries: ISO3 codes, comma separated e.g. 'ITA,FRA'
-    @type countries: String, comma separated
+    @type countries: str
     @return: An array of code/label/size objects.
     """
     countries_list = countries.split(',')
@@ -336,9 +336,9 @@ def day_of_the_year_to_date(day, year):
     """
     Convert a day of an year to a date
     @param day: day of the year
-    @type string i.e. "020" or "20"
+    @type day: str
     @param year: year of reference
-    @type string or int i.e. "2014" or 2014
+    @type year: str
     @return: the date of the day/year i.e. "2012-01-20"
     """
     first_of_year = datetime.datetime(int(year), 1, 1).replace(month=1, day=1)
