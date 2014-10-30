@@ -248,6 +248,64 @@ def list_layers_countries_subset(product_name, year, day, countries):
     return clean_out
 
 
+def list_layers_countries_subset_iso2(product_name, year, day, countries):
+    """
+    List all the available layers for a given MODIS product, year and day.
+    @param product_name: Code of MODIS product, e.g. 'MOD13Q1'
+    @param year: e.g. '2010'
+    @param day: Day of the year, three digits, e.g. '017'
+    @param countries: ISO2 codes, comma separated e.g. 'IT,FR'
+    @type countries: String, comma separated
+    @return: An array of code/label/size objects.
+    """
+    countries_list = countries.split(',')
+    out = []
+    clean_out = []
+    file_names_buffer = []
+    for g2m in map:
+        if g2m['iso2_code'] in countries_list:
+            from_h = g2m['from_h']
+            to_h = g2m['to_h']
+            from_v = g2m['from_v']
+            to_v = g2m['to_v']
+            tmp = list_layers_subset(product_name, year, day, from_h, to_h, from_v, to_v)
+            out += tmp
+    for tmp in out:
+        if tmp['file_name'] not in file_names_buffer:
+            file_names_buffer.append(tmp['file_name'])
+            clean_out.append(tmp)
+    return clean_out
+
+
+def list_layers_countries_subset_iso3(product_name, year, day, countries):
+    """
+    List all the available layers for a given MODIS product, year and day.
+    @param product_name: Code of MODIS product, e.g. 'MOD13Q1'
+    @param year: e.g. '2010'
+    @param day: Day of the year, three digits, e.g. '017'
+    @param countries: ISO3 codes, comma separated e.g. 'ITA,FRA'
+    @type countries: String, comma separated
+    @return: An array of code/label/size objects.
+    """
+    countries_list = countries.split(',')
+    out = []
+    clean_out = []
+    file_names_buffer = []
+    for g2m in map:
+        if g2m['iso3_code'] in countries_list:
+            from_h = g2m['from_h']
+            to_h = g2m['to_h']
+            from_v = g2m['from_v']
+            to_v = g2m['to_v']
+            tmp = list_layers_subset(product_name, year, day, from_h, to_h, from_v, to_v)
+            out += tmp
+    for tmp in out:
+        if tmp['file_name'] not in file_names_buffer:
+            file_names_buffer.append(tmp['file_name'])
+            clean_out.append(tmp)
+    return clean_out
+
+
 def day_of_the_year_to_date(day, year):
     """
     Convert a day of an year to a date

@@ -32,6 +32,15 @@ class GeobricksModisTest(unittest.TestCase):
         layers = c.list_layers_countries_subset('MOD13A2', '2010', '001', '8,1')
         self.assertEqual(len(layers), 8)
 
+    def test_list_layers_countries_subset_iso2(self):
+        layers = c.list_layers_countries_subset_iso2('MOD13A2', '2010', '001', 'IT,FR')
+        self.assertEqual(len(layers), 7)
+
+    def test_list_layers_countries_subset_iso3(self):
+        layers = c.list_layers_countries_subset_iso3('MOD13A2', '2010', '001', 'ITA,FRA')
+        print layers
+        self.assertEqual(len(layers), 7)
+
     def test_day_of_the_year_to_date(self):
         date = c.day_of_the_year_to_date('017', 2014)
         date_string = date.strftime("%Y-%m-%d %H:%M:%S").split(' ')[0]
