@@ -221,6 +221,32 @@ def list_countries():
 
 def list_layers_countries_subset(product_name, year, day, countries):
     """
+    Filter MODIS tiles based on the product, the year, the day and the country. Country codes can be in GAUL,
+    ISO2, ISO3 or a combination of the previous.
+    @param product_name: e.g. 'mod13q1'
+    @type product_name: String
+    @param year: e.g. '2010'
+    @type year: String
+    @param day: Day of the year, e.g. '047'
+    @type day: String
+    @param countries: Comma separated string containing country codes in GAUL, ISO2 or ISO3. e.g. '8,IT,FRA'
+    @type countries: String
+    @return: Array of objects.
+    """
+    out = []
+    countries_list = countries.split(',')
+    for country_code in countries_list:
+        if country_code.isdigit():
+            out += list_layers_countries_subset_gaul(product_name, year, day, country_code)
+        elif len(country_code) == 2:
+            out += list_layers_countries_subset_iso2(product_name, year, day, country_code.upper())
+        else:
+            out += list_layers_countries_subset_iso3(product_name, year, day, country_code.upper())
+    return out
+
+
+def list_layers_countries_subset_gaul(product_name, year, day, countries):
+    """
     List all the available layers for a given MODIS product, year and day.
     @param product_name: Code of MODIS product, e.g. 'MOD13Q1'
     @param year: e.g. '2010'
