@@ -79,7 +79,7 @@ layers = c.list_layers_subset('MOD13A2', '2010', '001', 5, 7, 3, 9)
 ```
 Get layers by country GAUL code
 -------------------------------
-This method retrieves the list of MODIS tiles for the given product, year and day, filtered by the country GAUL code. The example below gets the layers of Afghanistan ('1') and Angola ('8').
+This method retrieves the list of MODIS tiles for the given product, year and day, filtered by the country GAUL code. The example below gets the layers of Afghanistan (`1`) and Angola (`8`).
 ```python
 from geobricks_modis.core import modis_core as c
 
@@ -88,7 +88,7 @@ layers = c.list_layers_countries_subset_gaul('MOD13A2', '2010', '001', '8,1')
 ```
 Get layers by country ISO2 code
 -------------------------------
-This method retrieves the list of MODIS tiles for the given product, year and day, filtered by the country ISO2 code. The example below gets the layers of Italy ('it') and France ('FR'). Codes can be either lower or upper case.
+This method retrieves the list of MODIS tiles for the given product, year and day, filtered by the country ISO2 code. The example below gets the layers of Italy (`it`) and France (`FR`). Codes can be either lower or upper case.
 ```python
 from geobricks_modis.core import modis_core as c
 
@@ -97,7 +97,7 @@ layers = c.list_layers_countries_subset_iso2('MOD13A2', '2010', '001', 'it,FR')
 ```
 Get layers by country ISO3 code
 -------------------------------
-This method retrieves the list of MODIS tiles for the given product, year and day, filtered by the country ISO3 code. The example below gets the layers of Italy ('ita') and France ('FRA'). Codes can be either lower or upper case.
+This method retrieves the list of MODIS tiles for the given product, year and day, filtered by the country ISO3 code. The example below gets the layers of Italy (`ita`) and France (`FRA`). Codes can be either lower or upper case.
 ```python
 from geobricks_modis.core import modis_core as c
 
@@ -106,7 +106,7 @@ layers = c.list_layers_countries_subset_iso3('MOD13A2', '2010', '001', 'ITA,fra'
 ```
 Get layers by country code
 -------------------------------
-The previous methods can be used in combined way: layers can be filtered by means of GAUL ('8'), ISO3 ('ITA') and ISO2 ('fr') codes. 
+The previous methods can be used in combined way: layers can be filtered by means of GAUL (`8`), ISO3 (`ITA`) and ISO2 (`fr`) codes. 
 ```python
 from geobricks_modis.core import modis_core as c
 
