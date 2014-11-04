@@ -9,6 +9,7 @@ setup(
     packages=find_packages(),
     license='LICENSE.txt',
     long_description=open('README.md').read(),
+    description='MODIS plug-in for Geobricks downloader.',
     install_requires=[
         'flask', 'BeautifulSoup'
     ],
