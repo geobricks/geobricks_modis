@@ -2743,7 +2743,7 @@ map = [
         "to_v":20,
         "iso2_code":"93",
         "from_h":488,
-        "gaul_label":"\"Moldova",
+        "gaul_label":"Moldova",
         "gaul_code":"165",
         "iso3_code":"MD",
         "from_v":19,
