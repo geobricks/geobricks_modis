@@ -16,23 +16,26 @@ def get_modis_product_table():
     sock.close()
     soup = BeautifulSoup(html)
     tables = soup.findAll('table')
-    table = tables[len(tables) - 1]
-    tbody = table.find('tbody')
-    trs = tbody.findAll('tr')
-    products = []
-    keys = ['code', 'platform', 'modis_data_product', 'raster_type', 'spatial_resolution', 'temporal_resolution']
-    for tr in trs:
-        p = {}
-        counter = 0
-        tds = tr.findAll('td')
-        for td in tds:
-            text = ''.join(td.find(text=True)).strip().replace('\n', '')
-            if counter == 0:
-                text = td.find('a').find(text=True)
-            p[keys[counter]] = text
-            counter += 1
-        products.append(p)
-    return products
+    if len(tables) == 0:
+        return list_products()
+    else:
+        table = tables[len(tables) - 1]
+        tbody = table.find('tbody')
+        trs = tbody.findAll('tr')
+        products = []
+        keys = ['code', 'platform', 'modis_data_product', 'raster_type', 'spatial_resolution', 'temporal_resolution']
+        for tr in trs:
+            p = {}
+            counter = 0
+            tds = tr.findAll('td')
+            for td in tds:
+                text = ''.join(td.find(text=True)).strip().replace('\n', '')
+                if counter == 0:
+                    text = td.find('a').find(text=True)
+                p[keys[counter]] = text
+                counter += 1
+            products.append(p)
+        return products
 
 
 def list_products():
