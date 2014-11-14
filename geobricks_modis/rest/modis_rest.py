@@ -8,6 +8,20 @@ from geobricks_modis.core import modis_core as m
 modis = Blueprint('modis', __name__)
 
 
+@modis.route('/discovery/')
+@cross_origin(origins='*')
+def discovery():
+    """
+    Discovery service available for all Geobricks libraries that describes the plug-in.
+    @return: Dictionary containing information about the service.
+    """
+    out = {
+        'name': 'MODIS',
+        'description': 'Core functionalities and services for MODIS products.',
+        'type': 'DATASOURCE'
+    }
+    return Response(json.dumps(out), content_type='application/json; charset=utf-8')
+
 @modis.route('/')
 @cross_origin(origins='*')
 def list_products_service():
