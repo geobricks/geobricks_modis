@@ -3,7 +3,7 @@ map = [
         "to_v":35,
         "iso2_code":None,
         "from_h":0,
-        "gaul_label":None,
+        "gaul_label":"World",
         "gaul_code":"0",
         "iso3_code":None,
         "from_v":0,
