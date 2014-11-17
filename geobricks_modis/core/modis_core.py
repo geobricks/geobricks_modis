@@ -34,6 +34,7 @@ def get_modis_product_table():
                     text = td.find('a').find(text=True)
                 p[keys[counter]] = text
                 counter += 1
+            p['label'] = p['modis_data_product'] + ' (' + p['spatial_resolution'] + ', ' + p['temporal_resolution'] + ')'
             products.append(p)
         return products
 
