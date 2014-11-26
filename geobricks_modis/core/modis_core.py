@@ -1,7 +1,8 @@
-from ftplib import FTP
-import datetime
-from bs4 import BeautifulSoup
 import urllib
+import datetime
+
+from ftplib import FTP
+from bs4 import BeautifulSoup
 from geobricks_modis.config.gaul2modis import map
 from geobricks_modis.config.modis_config import config as conf
 

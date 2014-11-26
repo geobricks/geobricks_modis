@@ -7,41 +7,6 @@ config = {
             "data_dir": "/allData/5/"
         }
     },
-    "target": {
-        "folders": [
-            {
-                "folder_name": "{{target}}",
-                "folders": [
-                    {
-                        "folder_name": "{{product}}",
-                        "folders": [
-                            {
-                                "folder_name": "{{year}}",
-                                "folders": [
-                                    {
-                                        "folder_name": "{{day}}"
-                                    }
-                                ]
-                            }
-                        ]
-                    }
-                ]
-            }
-        ]
-    },
-    "bands": [
-        {
-            "index": 1,
-            "label": "NDVI"
-        },
-        {
-            "index": 2,
-            "label": "EVI"
-        }
-    ],
-    "subfolders": {
-        "output": "OUTPUT"
-    },
     "processing": [
         {
             "band": 1,
