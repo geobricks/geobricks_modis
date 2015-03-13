@@ -12,7 +12,10 @@ module.exports = function (grunt) {
             },
             options: {
                 template: 'index.tmpl.html',
-                autoTemplate: false
+                autoTemplate: false,
+                postCompile: function(src, context) {
+                    return src.replace(/<pre>/g, '<pre class="prettyprint">');
+                }
             }
         }
     });
