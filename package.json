@@ -3,6 +3,7 @@
    "label": {
       "en": "Geobricks MODIS"
    },
+   "language": "Python",
    "description": "MODIS plug-in for Geobricks downloader.",
    "license": "GPL2",
    "homepage": "http://geobricks.org/",
