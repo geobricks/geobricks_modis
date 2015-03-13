@@ -9,6 +9,10 @@ module.exports = function (grunt) {
                 files: {
                     'index.html': ['README.md']
                 }
+            },
+            options: {
+                template: 'index.tmpl.html',
+                autoTemplate: false
             }
         }
     });
