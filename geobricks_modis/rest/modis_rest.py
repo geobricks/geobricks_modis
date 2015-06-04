@@ -22,6 +22,7 @@ def discovery():
     }
     return Response(json.dumps(out), content_type='application/json; charset=utf-8')
 
+
 @modis.route('/')
 @cross_origin(origins='*', headers=['Content-Type'])
 def list_products_service():
