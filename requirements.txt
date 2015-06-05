@@ -1,4 +1,4 @@
 watchdog
 flask
 flask-cors
-bs4
+BeautifulSoup4
