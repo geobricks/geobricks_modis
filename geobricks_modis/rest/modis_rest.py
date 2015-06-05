@@ -28,6 +28,7 @@ def discovery():
 @cross_origin(origins='*', headers=['Content-Type'])
 def list_products_service():
     out = m.get_modis_product_table()
+    print out
     return Response(json.dumps(out), content_type='application/json; charset=utf-8')
 
 
