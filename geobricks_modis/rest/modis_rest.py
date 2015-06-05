@@ -1,6 +1,7 @@
 import json
 from flask import Blueprint
 from flask import Response
+from flask import request
 from flask.ext.cors import cross_origin
 from geobricks_modis.core import modis_core as m
 
@@ -69,4 +70,11 @@ def list_layers_countries_subset_service(product_name, year, day, countries):
 @cross_origin(origins='*', headers=['Content-Type'])
 def list_countries():
     out = m.list_countries()
+    return Response(json.dumps(out), content_type='application/json; charset=utf-8')
+
+@modis.route('/unittest/', methods=['POST'])
+@cross_origin(origins='*', headers=['Content-Type'])
+def post_user():
+    payload = json.loads(request.data)
+    out = {'response': 'ok'}
     return Response(json.dumps(out), content_type='application/json; charset=utf-8')
