@@ -11,7 +11,7 @@ setup(
     long_description=open('README.md').read(),
     description='MODIS plug-in for Geobricks downloader.',
     install_requires=[
-        'flask', 'BeautifulSoup'
+        'watchdog', 'flask', 'flask-cors', 'BeautifulSoup'
     ],
     url='http://pypi.python.org/pypi/GeobricksMODIS/'
 )
