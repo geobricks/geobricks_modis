@@ -283,7 +283,8 @@ def list_layers_countries_subset(product_name, year, day, countries):
     """
     year = year if type(year) is str else str(year)
     day = day if type(day) is str else str(day)
-    day = day if len(day) == 2 else '0' + day
+    day = '00' + day if len(day) == 1 else day
+    day = '0' + day if len(day) == 2 else day
     out = []
     countries_list = countries.split(',')
     for country_code in countries_list:
@@ -311,7 +312,8 @@ def list_layers_countries_subset_gaul(product_name, year, day, countries):
     """
     year = year if type(year) is str else str(year)
     day = day if type(day) is str else str(day)
-    day = day if len(day) == 2 else '0' + day
+    day = '00' + day if len(day) == 1 else day
+    day = '0' + day if len(day) == 2 else day
     countries_list = countries.split(',')
     out = []
     clean_out = []
@@ -346,7 +348,8 @@ def list_layers_countries_subset_iso2(product_name, year, day, countries):
     """
     year = year if type(year) is str else str(year)
     day = day if type(day) is str else str(day)
-    day = day if len(day) == 2 else '0' + day
+    day = '00' + day if len(day) == 1 else day
+    day = '0' + day if len(day) == 2 else day
     countries_list = countries.split(',')
     out = []
     clean_out = []
@@ -380,7 +383,8 @@ def list_layers_countries_subset_iso3(product_name, year, day, countries):
     """
     year = year if type(year) is str else str(year)
     day = day if type(day) is str else str(day)
-    day = day if len(day) == 2 else '0' + day
+    day = '00' + day if len(day) == 1 else day
+    day = '0' + day if len(day) == 2 else day
     countries_list = countries.split(',')
     out = []
     clean_out = []
@@ -411,7 +415,8 @@ def day_of_the_year_to_date(day, year):
     """
     year = year if type(year) is str else str(year)
     day = day if type(day) is str else str(day)
-    day = day if len(day) == 2 else '0' + day
+    day = '00' + day if len(day) == 1 else day
+    day = '0' + day if len(day) == 2 else day
     first_of_year = datetime.datetime(int(year), 1, 1).replace(month=1, day=1)
     ordinal = first_of_year.toordinal() - 1 + int(day)
     return datetime.date.fromordinal(ordinal)
