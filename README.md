@@ -1,4 +1,4 @@
-[![PyPI version](https://badge.fury.io/py/geobricksmodis.svg)](http://badge.fury.io/py/geobricksmodis)
+[![PyPI version](https://badge.fury.io/py/GeobricksMODIS.svg)](http://badge.fury.io/py/GeobricksMODIS)
 
 Geobricks MODIS
 ===============
