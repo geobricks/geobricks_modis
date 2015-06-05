@@ -1,0 +1,8 @@
+language: python
+python:
+  - "2.7"
+install:
+  - "pip install -r requirements.txt"
+script:
+  - nosetests -v geobricks_modis_test/core/test_modis_core.py
+  - nosetests -v geobricks_modis_test/rest/test_modis_rest.py

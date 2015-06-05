@@ -1,0 +1,4 @@
+watchdog
+flask
+flask-cors
+BeautifulSoup
