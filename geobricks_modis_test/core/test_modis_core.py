@@ -21,7 +21,7 @@ class GeobricksModisTest(unittest.TestCase):
         self.assertEqual(len(days), 23)
 
     def test_list_layers(self):
-        layers = c.list_layers('MOD13A2', '2010', '001')
+        layers = c.list_layers('MOD13A2', 2014, '001')
         self.assertEqual(len(layers), 286)
 
     def test_list_layers_subset(self):
