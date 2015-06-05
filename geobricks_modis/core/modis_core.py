@@ -1,9 +1,8 @@
 import urllib
 import datetime
-
 from ftplib import FTP
 from bs4 import BeautifulSoup
-from geobricks_modis.config.gaul2modis import map
+from geobricks_modis.config.gaul2modis import countries_map
 from geobricks_modis.config.modis_config import config as conf
 
 
@@ -24,7 +23,7 @@ def get_modis_product_table():
         tbody = table.find('tbody')
         trs = tbody.findAll('tr')
         products = []
-        keys = ['code', 'platform', 'modis_data_product', 'raster_type', 'spatial_resolution', 'temporal_resolution']
+        keys = ['code', 'platform', 'modis_data_product', 'raster_type', 'spatial_resolution']
         for tr in trs:
             p = {}
             counter = 0
@@ -35,8 +34,7 @@ def get_modis_product_table():
                     text = td.find('a').find(text=True)
                 p[keys[counter]] = text
                 counter += 1
-            p['label'] = p['code'] + ': ' + p['modis_data_product'] + ' (' + \
-                         p['spatial_resolution'] + ', ' + p['temporal_resolution'] + ')'
+            p['label'] = p['code'] + ': ' + p['modis_data_product'] + ' (' + p['spatial_resolution'] + ')'
             products.append(p)
         return products
 
@@ -63,6 +61,7 @@ def list_years(product_name):
     """
     List all the available years for a given MODIS product.
     @param product_name: Code of MODIS product, e.g. 'MOD13Q1'
+    @type product_name: str
     @return: An array of code/label objects.
     """
     if conf['source']['type'] == 'FTP':
@@ -87,9 +86,12 @@ def list_days(product_name, year):
     """
     List all the available days for a given MODIS product and year.
     @param product_name: Code of MODIS product, e.g. 'MOD13Q1'
+    @type product_name: str
     @param year: e.g. '2010'
+    @type year: str | int
     @return: An array of code/label objects.
     """
+    year = year if type(year) is str else str(year)
     if conf['source']['type'] == 'FTP':
         ftp = FTP(conf['source']['ftp']['base_url'])
         ftp.login()
@@ -110,10 +112,17 @@ def list_layers(product_name, year, day):
     """
     List all the available layers for a given MODIS product, year and day.
     @param product_name: Code of MODIS product, e.g. 'MOD13Q1'
+    @type product_name: str
     @param year: e.g. '2010'
+    @type year: str | int
     @param day: Day of the year, three digits, e.g. '017'
+    @type day: str | int
     @return: An array of code/label/size objects.
     """
+    year = year if type(year) is str else str(year)
+    day = day if type(day) is str else str(day)
+    day = '00' + day if len(day) == 1 else day
+    day = '0' + day if len(day) == 2 else day
     ftp = FTP(conf['source']['ftp']['base_url'])
     ftp.login()
     ftp.cwd(conf['source']['ftp']['data_dir'])
@@ -124,7 +133,7 @@ def list_layers(product_name, year, day):
     ftp.retrlines('MLSD', ls.append)
     ftp.quit()
     out = []
-    buffer = []
+    tmp_buffer = []
     for line in ls:
         try:
             start = line.index('Size=')
@@ -132,8 +141,8 @@ def list_layers(product_name, year, day):
             size = line[start + len('Size='):end]
             start = line.index(product_name.upper())
             file_name = line[start:]
-            if file_name not in buffer:
-                buffer.append(file_name)
+            if file_name not in tmp_buffer:
+                tmp_buffer.append(file_name)
                 file_path = 'ftp://' + conf['source']['ftp']['base_url'] + conf['source']['ftp']['data_dir']
                 file_path += product_name.upper() + '/' + year + '/' + day + '/'
                 file_path += line[start:]
@@ -146,7 +155,7 @@ def list_layers(product_name, year, day):
                     'label': label,
                     'size': None
                 })
-        except:
+        except ValueError:
             pass
     return out
 
@@ -155,14 +164,33 @@ def list_layers_subset(product_name, year, day, from_h, to_h, from_v, to_v):
     """
     List all the available layers for a given MODIS product, year and day.
     @param product_name: Code of MODIS product, e.g. 'MOD13Q1'
+    @type product_name: str
     @param year: e.g. '2010'
+    @type year: str | int
     @param day: Day of the year, three digits, e.g. '017'
+    @type day: str | int
     @param from_h: e.g. '05'
+    @type from_h: str | int
     @param to_h: e.g. '05'
+    @type to_h: str | int
     @param from_v: e.g. '05'
+    @type from_v: str | int
     @param to_v: e.g. '05'
+    @type to_v: str | int
     @return: An array of code/label/size objects.
     """
+    year = year if type(year) is str else str(year)
+    day = day if type(day) is str else str(day)
+    day = '00' + day if len(day) == 1 else day
+    day = '0' + day if len(day) == 2 else day
+    from_h = from_h if type(from_h) is str else str(from_h)
+    to_h = to_h if type(to_h) is str else str(to_h)
+    from_v = from_v if type(from_v) is str else str(from_v)
+    to_v = to_v if type(to_v) is str else str(to_v)
+    from_h = from_h if len(from_h) == 2 else '0' + from_h
+    to_h = to_h if len(to_h) == 2 else '0' + to_h
+    from_v = from_v if len(from_v) == 2 else '0' + from_v
+    to_v = to_v if len(to_v) == 2 else '0' + to_v
     if conf['source']['type'] == 'FTP':
         ftp = FTP(conf['source']['ftp']['base_url'])
         ftp.login()
@@ -174,7 +202,7 @@ def list_layers_subset(product_name, year, day, from_h, to_h, from_v, to_v):
         ftp.retrlines('MLSD', ls.append)
         ftp.quit()
         out = []
-        buffer = []
+        tmp_buffer = []
         for line in ls:
             try:
                 start = line.index('Size=')
@@ -182,8 +210,8 @@ def list_layers_subset(product_name, year, day, from_h, to_h, from_v, to_v):
                 size = line[start + len('Size='):end]
                 start = line.index(product_name.upper())
                 file_name = line[start:]
-                if file_name not in buffer:
-                    buffer.append(file_name)
+                if file_name not in tmp_buffer:
+                    tmp_buffer.append(file_name)
                     if is_layer_in_the_range(file_name, from_h, to_h, from_v, to_v):
                         file_path = 'ftp://' + conf['source']['ftp']['base_url'] + conf['source']['ftp']['data_dir']
                         file_path += product_name.upper() + '/' + year + '/' + day + '/'
@@ -197,7 +225,7 @@ def list_layers_subset(product_name, year, day, from_h, to_h, from_v, to_v):
                             'label': label,
                             'size': None
                         })
-            except:
+            except ValueError:
                 pass
         return out
 
@@ -206,12 +234,25 @@ def is_layer_in_the_range(file_name, from_h, to_h, from_v, to_v):
     """
     Check whether a given file is in the specified range, according to its name.
     @param file_name: Name of the file.
+    @type file_name: str
     @param from_h: Starting horizontal index of the range.
+    @type from_h: str | int
     @param to_h: Ending horizontal index of the range.
+    @type to_h: str | int
     @param from_v: Starting vertical index of the range.
+    @type from_v: str | int
     @param to_v: Ending vertical index of the range.
+    @type to_v: str | int
     @return: True if the file is in the range, false otherwise.
     """
+    from_h = from_h if type(from_h) is str else str(from_h)
+    to_h = to_h if type(to_h) is str else str(to_h)
+    from_v = from_v if type(from_v) is str else str(from_v)
+    to_v = to_v if type(to_v) is str else str(to_v)
+    from_h = from_h if len(from_h) == 2 else '0' + from_h
+    to_h = to_h if len(to_h) == 2 else '0' + to_h
+    from_v = from_v if len(from_v) == 2 else '0' + from_v
+    to_v = to_v if len(to_v) == 2 else '0' + to_v
     h_idx = len('.h') + file_name.index('.h')
     h = int(file_name[h_idx:(2 + h_idx)])
     v_idx = len(str(h) + 'v') + file_name.index(str(h) + 'v')
@@ -222,7 +263,7 @@ def is_layer_in_the_range(file_name, from_h, to_h, from_v, to_v):
 
 
 def list_countries():
-    return map
+    return countries_map
 
 
 def list_layers_countries_subset(product_name, year, day, countries):
@@ -232,13 +273,17 @@ def list_layers_countries_subset(product_name, year, day, countries):
     @param product_name: e.g. 'mod13q1'
     @type product_name: str
     @param year: e.g. '2010'
-    @type year: str
+    @type year: str | int
     @param day: Day of the year, e.g. '047'
-    @type day: str
+    @type day: str | int
     @param countries: Comma separated string containing country codes in GAUL, ISO2 or ISO3. e.g. '8,IT,FRA'
-    @type countries: str
+    @type countries: str | int
     @return: Array of objects.
     """
+    year = year if type(year) is str else str(year)
+    day = day if type(day) is str else str(day)
+    day = '00' + day if len(day) == 1 else day
+    day = '0' + day if len(day) == 2 else day
     out = []
     countries_list = countries.split(',')
     for country_code in countries_list:
@@ -255,17 +300,24 @@ def list_layers_countries_subset_gaul(product_name, year, day, countries):
     """
     List all the available layers for a given MODIS product, year and day.
     @param product_name: Code of MODIS product, e.g. 'MOD13Q1'
+    @type product_name: str
     @param year: e.g. '2010'
-    @param day: Day of the year, three digits, e.g. '017'
+    @type year: str | int
+    @param day: Day of the year, e.g. '047'
+    @type day: str | int
     @param countries: GAUL codes, comma separated e.g. '18,25,34'
     @type countries: str
     @return: An array of code/label/size objects.
     """
+    year = year if type(year) is str else str(year)
+    day = day if type(day) is str else str(day)
+    day = '00' + day if len(day) == 1 else day
+    day = '0' + day if len(day) == 2 else day
     countries_list = countries.split(',')
     out = []
     clean_out = []
     file_names_buffer = []
-    for g2m in map:
+    for g2m in countries_map:
         if g2m['gaul_code'] in countries_list:
             from_h = g2m['from_h']
             to_h = g2m['to_h']
@@ -284,17 +336,24 @@ def list_layers_countries_subset_iso2(product_name, year, day, countries):
     """
     List all the available layers for a given MODIS product, year and day.
     @param product_name: Code of MODIS product, e.g. 'MOD13Q1'
+    @type product_name: str
     @param year: e.g. '2010'
+    @type year: str | int
     @param day: Day of the year, three digits, e.g. '017'
+    @type day: str | int
     @param countries: ISO2 codes, comma separated e.g. 'IT,FR'
     @type countries: str
     @return: An array of code/label/size objects.
     """
+    year = year if type(year) is str else str(year)
+    day = day if type(day) is str else str(day)
+    day = '00' + day if len(day) == 1 else day
+    day = '0' + day if len(day) == 2 else day
     countries_list = countries.split(',')
     out = []
     clean_out = []
     file_names_buffer = []
-    for g2m in map:
+    for g2m in countries_map:
         if g2m['iso2_code'] in countries_list:
             from_h = g2m['from_h']
             to_h = g2m['to_h']
@@ -314,16 +373,22 @@ def list_layers_countries_subset_iso3(product_name, year, day, countries):
     List all the available layers for a given MODIS product, year and day.
     @param product_name: Code of MODIS product, e.g. 'MOD13Q1'
     @param year: e.g. '2010'
+    @type year: str | int
     @param day: Day of the year, three digits, e.g. '017'
+    @type day: str | int
     @param countries: ISO3 codes, comma separated e.g. 'ITA,FRA'
     @type countries: str
     @return: An array of code/label/size objects.
     """
+    year = year if type(year) is str else str(year)
+    day = day if type(day) is str else str(day)
+    day = '00' + day if len(day) == 1 else day
+    day = '0' + day if len(day) == 2 else day
     countries_list = countries.split(',')
     out = []
     clean_out = []
     file_names_buffer = []
-    for g2m in map:
+    for g2m in countries_map:
         if g2m['iso3_code'] in countries_list:
             from_h = g2m['from_h']
             to_h = g2m['to_h']
@@ -342,11 +407,15 @@ def day_of_the_year_to_date(day, year):
     """
     Convert a day of an year to a date
     @param day: day of the year
-    @type day: str
+    @type day: str | int
     @param year: year of reference
-    @type year: str
+    @type year: str | int
     @return: the date of the day/year i.e. "2012-01-20"
     """
+    year = year if type(year) is str else str(year)
+    day = day if type(day) is str else str(day)
+    day = '00' + day if len(day) == 1 else day
+    day = '0' + day if len(day) == 2 else day
     first_of_year = datetime.datetime(int(year), 1, 1).replace(month=1, day=1)
     ordinal = first_of_year.toordinal() - 1 + int(day)
     return datetime.date.fromordinal(ordinal)

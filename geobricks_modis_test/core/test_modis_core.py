@@ -10,18 +10,18 @@ class GeobricksModisTest(unittest.TestCase):
 
     def test_list_products(self):
         products = c.list_products()
-        self.assertEqual(len(products), 426)
+        self.assertEqual(len(products), 427)
 
     def test_list_years(self):
         years = c.list_years('MOD13A2')
-        self.assertEqual(len(years), 15)
+        self.assertEqual(len(years), 16)
 
     def test_list_days(self):
         days = c.list_days('MOD13A2', '2010')
         self.assertEqual(len(days), 23)
 
     def test_list_layers(self):
-        layers = c.list_layers('MOD13A2', '2010', '001')
+        layers = c.list_layers('MOD13A2', 2014, '001')
         self.assertEqual(len(layers), 286)
 
     def test_list_layers_subset(self):
@@ -42,13 +42,16 @@ class GeobricksModisTest(unittest.TestCase):
 
     def test_list_layers_countries_subset_iso3(self):
         layers = c.list_layers_countries_subset_iso3('MOD13A2', '2010', '001', 'ITA,FRA')
-        print layers
         self.assertEqual(len(layers), 7)
 
     def test_day_of_the_year_to_date(self):
         date = c.day_of_the_year_to_date('017', 2014)
         date_string = date.strftime("%Y-%m-%d %H:%M:%S").split(' ')[0]
         self.assertEqual(date_string, '2014-01-17')
+
+    def test_list_countries(self):
+        out = c.list_countries()
+        self.assertEquals(len(out), 277)
 
 if __name__ == '__main__':
     unittest.main()
