@@ -240,10 +240,73 @@
         <span class="summary-sig-arg">year</span>,
         <span class="summary-sig-arg">day</span>,
         <span class="summary-sig-arg">countries</span>)</span><br />
+      Filter MODIS tiles based on the product, the year, the day and the 
+      country.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="geobricks_modis.core.modis_core-pysrc.html#list_layers_countries_subset">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="geobricks_modis.core.modis_core-module.html#list_layers_countries_subset_gaul" class="summary-sig-name">list_layers_countries_subset_gaul</a>(<span class="summary-sig-arg">product_name</span>,
+        <span class="summary-sig-arg">year</span>,
+        <span class="summary-sig-arg">day</span>,
+        <span class="summary-sig-arg">countries</span>)</span><br />
       List all the available layers for a given MODIS product, year and 
       day.</td>
           <td align="right" valign="top">
-            <span class="codelink"><a href="geobricks_modis.core.modis_core-pysrc.html#list_layers_countries_subset">source&nbsp;code</a></span>
+            <span class="codelink"><a href="geobricks_modis.core.modis_core-pysrc.html#list_layers_countries_subset_gaul">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="geobricks_modis.core.modis_core-module.html#list_layers_countries_subset_iso2" class="summary-sig-name">list_layers_countries_subset_iso2</a>(<span class="summary-sig-arg">product_name</span>,
+        <span class="summary-sig-arg">year</span>,
+        <span class="summary-sig-arg">day</span>,
+        <span class="summary-sig-arg">countries</span>)</span><br />
+      List all the available layers for a given MODIS product, year and 
+      day.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="geobricks_modis.core.modis_core-pysrc.html#list_layers_countries_subset_iso2">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="geobricks_modis.core.modis_core-module.html#list_layers_countries_subset_iso3" class="summary-sig-name">list_layers_countries_subset_iso3</a>(<span class="summary-sig-arg">product_name</span>,
+        <span class="summary-sig-arg">year</span>,
+        <span class="summary-sig-arg">day</span>,
+        <span class="summary-sig-arg">countries</span>)</span><br />
+      List all the available layers for a given MODIS product, year and 
+      day.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="geobricks_modis.core.modis_core-pysrc.html#list_layers_countries_subset_iso3">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -373,7 +436,7 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>product_name</code></strong> - Code of MODIS product, e.g. 'MOD13Q1'</li>
+        <li><strong class="pname"><code>product_name</code></strong> (str) - Code of MODIS product, e.g. 'MOD13Q1'</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>An array of code/label objects.</dd>
@@ -399,8 +462,8 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>product_name</code></strong> - Code of MODIS product, e.g. 'MOD13Q1'</li>
-        <li><strong class="pname"><code>year</code></strong> - e.g. '2010'</li>
+        <li><strong class="pname"><code>product_name</code></strong> (str) - Code of MODIS product, e.g. 'MOD13Q1'</li>
+        <li><strong class="pname"><code>year</code></strong> (str | int) - e.g. '2010'</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>An array of code/label objects.</dd>
@@ -428,9 +491,9 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>product_name</code></strong> - Code of MODIS product, e.g. 'MOD13Q1'</li>
-        <li><strong class="pname"><code>year</code></strong> - e.g. '2010'</li>
-        <li><strong class="pname"><code>day</code></strong> - Day of the year, three digits, e.g. '017'</li>
+        <li><strong class="pname"><code>product_name</code></strong> (str) - Code of MODIS product, e.g. 'MOD13Q1'</li>
+        <li><strong class="pname"><code>year</code></strong> (str | int) - e.g. '2010'</li>
+        <li><strong class="pname"><code>day</code></strong> (str | int) - Day of the year, three digits, e.g. '017'</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>An array of code/label/size objects.</dd>
@@ -462,13 +525,13 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>product_name</code></strong> - Code of MODIS product, e.g. 'MOD13Q1'</li>
-        <li><strong class="pname"><code>year</code></strong> - e.g. '2010'</li>
-        <li><strong class="pname"><code>day</code></strong> - Day of the year, three digits, e.g. '017'</li>
-        <li><strong class="pname"><code>from_h</code></strong> - e.g. '05'</li>
-        <li><strong class="pname"><code>to_h</code></strong> - e.g. '05'</li>
-        <li><strong class="pname"><code>from_v</code></strong> - e.g. '05'</li>
-        <li><strong class="pname"><code>to_v</code></strong> - e.g. '05'</li>
+        <li><strong class="pname"><code>product_name</code></strong> (str) - Code of MODIS product, e.g. 'MOD13Q1'</li>
+        <li><strong class="pname"><code>year</code></strong> (str | int) - e.g. '2010'</li>
+        <li><strong class="pname"><code>day</code></strong> (str | int) - Day of the year, three digits, e.g. '017'</li>
+        <li><strong class="pname"><code>from_h</code></strong> (str | int) - e.g. '05'</li>
+        <li><strong class="pname"><code>to_h</code></strong> (str | int) - e.g. '05'</li>
+        <li><strong class="pname"><code>from_v</code></strong> (str | int) - e.g. '05'</li>
+        <li><strong class="pname"><code>to_v</code></strong> (str | int) - e.g. '05'</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>An array of code/label/size objects.</dd>
@@ -498,11 +561,11 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>file_name</code></strong> - Name of the file.</li>
-        <li><strong class="pname"><code>from_h</code></strong> - Starting horizontal index of the range.</li>
-        <li><strong class="pname"><code>to_h</code></strong> - Ending horizontal index of the range.</li>
-        <li><strong class="pname"><code>from_v</code></strong> - Starting vertical index of the range.</li>
-        <li><strong class="pname"><code>to_v</code></strong> - Ending vertical index of the range.</li>
+        <li><strong class="pname"><code>file_name</code></strong> (str) - Name of the file.</li>
+        <li><strong class="pname"><code>from_h</code></strong> (str | int) - Starting horizontal index of the range.</li>
+        <li><strong class="pname"><code>to_h</code></strong> (str | int) - Ending horizontal index of the range.</li>
+        <li><strong class="pname"><code>from_v</code></strong> (str | int) - Starting vertical index of the range.</li>
+        <li><strong class="pname"><code>to_v</code></strong> (str | int) - Ending vertical index of the range.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>True if the file is in the range, false otherwise.</dd>
@@ -526,15 +589,113 @@
     </td>
   </tr></table>
   
+  <p>Filter MODIS tiles based on the product, the year, the day and the 
+  country. Country codes can be in GAUL, ISO2, ISO3 or a combination of the
+  previous.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>product_name</code></strong> (str) - e.g. 'mod13q1'</li>
+        <li><strong class="pname"><code>year</code></strong> (str | int) - e.g. '2010'</li>
+        <li><strong class="pname"><code>day</code></strong> (str | int) - Day of the year, e.g. '047'</li>
+        <li><strong class="pname"><code>countries</code></strong> (str | int) - Comma separated string containing country codes in GAUL, ISO2 or 
+          ISO3. e.g. '8,IT,FRA'</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Array of objects.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="list_layers_countries_subset_gaul"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">list_layers_countries_subset_gaul</span>(<span class="sig-arg">product_name</span>,
+        <span class="sig-arg">year</span>,
+        <span class="sig-arg">day</span>,
+        <span class="sig-arg">countries</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="geobricks_modis.core.modis_core-pysrc.html#list_layers_countries_subset_gaul">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>List all the available layers for a given MODIS product, year and 
+  day.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>product_name</code></strong> (str) - Code of MODIS product, e.g. 'MOD13Q1'</li>
+        <li><strong class="pname"><code>year</code></strong> (str | int) - e.g. '2010'</li>
+        <li><strong class="pname"><code>day</code></strong> (str | int) - Day of the year, e.g. '047'</li>
+        <li><strong class="pname"><code>countries</code></strong> (str) - GAUL codes, comma separated e.g. '18,25,34'</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>An array of code/label/size objects.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="list_layers_countries_subset_iso2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">list_layers_countries_subset_iso2</span>(<span class="sig-arg">product_name</span>,
+        <span class="sig-arg">year</span>,
+        <span class="sig-arg">day</span>,
+        <span class="sig-arg">countries</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="geobricks_modis.core.modis_core-pysrc.html#list_layers_countries_subset_iso2">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>List all the available layers for a given MODIS product, year and 
+  day.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>product_name</code></strong> (str) - Code of MODIS product, e.g. 'MOD13Q1'</li>
+        <li><strong class="pname"><code>year</code></strong> (str | int) - e.g. '2010'</li>
+        <li><strong class="pname"><code>day</code></strong> (str | int) - Day of the year, three digits, e.g. '017'</li>
+        <li><strong class="pname"><code>countries</code></strong> (str) - ISO2 codes, comma separated e.g. 'IT,FR'</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>An array of code/label/size objects.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="list_layers_countries_subset_iso3"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">list_layers_countries_subset_iso3</span>(<span class="sig-arg">product_name</span>,
+        <span class="sig-arg">year</span>,
+        <span class="sig-arg">day</span>,
+        <span class="sig-arg">countries</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="geobricks_modis.core.modis_core-pysrc.html#list_layers_countries_subset_iso3">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
   <p>List all the available layers for a given MODIS product, year and 
   day.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>product_name</code></strong> - Code of MODIS product, e.g. 'MOD13Q1'</li>
-        <li><strong class="pname"><code>year</code></strong> - e.g. '2010'</li>
-        <li><strong class="pname"><code>day</code></strong> - Day of the year, three digits, e.g. '017'</li>
-        <li><strong class="pname"><code>countries</code></strong> (String, comma separated) - GAUL codes, comma separated e.g. '18,25,34'</li>
+        <li><strong class="pname"><code>year</code></strong> (str | int) - e.g. '2010'</li>
+        <li><strong class="pname"><code>day</code></strong> (str | int) - Day of the year, three digits, e.g. '017'</li>
+        <li><strong class="pname"><code>countries</code></strong> (str) - ISO3 codes, comma separated e.g. 'ITA,FRA'</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>An array of code/label/size objects.</dd>
@@ -560,10 +721,8 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>day</code></strong> - day of the year @type string i.e. &quot;020&quot; or 
-          &quot;20&quot;</li>
-        <li><strong class="pname"><code>year</code></strong> - year of reference @type string or int i.e. &quot;2014&quot; or 
-          2014</li>
+        <li><strong class="pname"><code>day</code></strong> (str | int) - day of the year</li>
+        <li><strong class="pname"><code>year</code></strong> (str | int) - year of reference</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>the date of the day/year i.e. &quot;2012-01-20&quot;</dd>
@@ -602,7 +761,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Oct 27 13:27:25 2014
+    Generated by Epydoc 3.0.1 on Fri Jun  5 14:52:19 2015
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

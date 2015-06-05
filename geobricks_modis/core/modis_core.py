@@ -1,9 +1,8 @@
 import urllib
 import datetime
-
 from ftplib import FTP
 from bs4 import BeautifulSoup
-from geobricks_modis.config.gaul2modis import map
+from geobricks_modis.config.gaul2modis import countries_map
 from geobricks_modis.config.modis_config import config as conf
 
 
@@ -264,7 +263,7 @@ def is_layer_in_the_range(file_name, from_h, to_h, from_v, to_v):
 
 
 def list_countries():
-    return map
+    return countries_map
 
 
 def list_layers_countries_subset(product_name, year, day, countries):
@@ -318,7 +317,7 @@ def list_layers_countries_subset_gaul(product_name, year, day, countries):
     out = []
     clean_out = []
     file_names_buffer = []
-    for g2m in map:
+    for g2m in countries_map:
         if g2m['gaul_code'] in countries_list:
             from_h = g2m['from_h']
             to_h = g2m['to_h']
@@ -354,7 +353,7 @@ def list_layers_countries_subset_iso2(product_name, year, day, countries):
     out = []
     clean_out = []
     file_names_buffer = []
-    for g2m in map:
+    for g2m in countries_map:
         if g2m['iso2_code'] in countries_list:
             from_h = g2m['from_h']
             to_h = g2m['to_h']
@@ -389,7 +388,7 @@ def list_layers_countries_subset_iso3(product_name, year, day, countries):
     out = []
     clean_out = []
     file_names_buffer = []
-    for g2m in map:
+    for g2m in countries_map:
         if g2m['iso3_code'] in countries_list:
             from_h = g2m['from_h']
             to_h = g2m['to_h']
