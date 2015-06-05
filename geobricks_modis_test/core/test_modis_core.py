@@ -49,5 +49,9 @@ class GeobricksModisTest(unittest.TestCase):
         date_string = date.strftime("%Y-%m-%d %H:%M:%S").split(' ')[0]
         self.assertEqual(date_string, '2014-01-17')
 
+    def test_list_countries(self):
+        out = c.list_countries()
+        self.assertEquals(len(out), 277)
+
 if __name__ == '__main__':
     unittest.main()
