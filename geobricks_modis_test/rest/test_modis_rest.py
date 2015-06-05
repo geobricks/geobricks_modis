@@ -12,11 +12,7 @@ class GeobricksModisRestTest(unittest.TestCase):
         self.tester = self.app.test_client(self)
 
     def test_discovery(self):
-        response = self.tester.post('/modis/unittest/',
-                                    content_type='application/json',
-                                    data=json.dumps({
-                                        'username': 'sheldon@cooper.com',
-                                        'password': 'howimetyourmother'
-                                    }))
+        response = self.tester.get('/modis/discovery/', content_type='application/json')
         out = json.loads(response.data)
-        print out
+        self.assertEquals(out['name'], 'MODIS')
+        self.assertEquals(out['type'], 'DATASOURCE')

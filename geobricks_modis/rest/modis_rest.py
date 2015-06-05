@@ -71,10 +71,3 @@ def list_layers_countries_subset_service(product_name, year, day, countries):
 def list_countries():
     out = m.list_countries()
     return Response(json.dumps(out), content_type='application/json; charset=utf-8')
-
-@modis.route('/unittest/', methods=['POST'])
-@cross_origin(origins='*', headers=['Content-Type'])
-def post_user():
-    payload = json.loads(request.data)
-    out = {'response': 'ok'}
-    return Response(json.dumps(out), content_type='application/json; charset=utf-8')
