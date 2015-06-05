@@ -4,9 +4,9 @@ from geobricks_modis.core import modis_core as c
 
 class GeobricksModisTest(unittest.TestCase):
 
-    # def test_get_modis_product_table(self):
-    #     products = c.get_modis_product_table()
-    #     self.assertEqual(len(products), 68)
+    def test_get_modis_product_table(self):
+        products = c.get_modis_product_table()
+        self.assertEqual(len(products), 68)
 
     def test_list_products(self):
         products = c.list_products()
