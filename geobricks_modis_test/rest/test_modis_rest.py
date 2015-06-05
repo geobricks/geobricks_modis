@@ -36,3 +36,8 @@ class GeobricksModisRestTest(unittest.TestCase):
         response = self.tester.get('/modis/MOD13A2/2014/001/', content_type='application/json')
         out = json.loads(response.data)
         self.assertEquals(len(out), 286)
+
+    def test_list_layers_subset_service(self):
+        response = self.tester.get('/modis/MOD13A2/2014/001/5/7/3/9/', content_type='application/json')
+        out = json.loads(response.data)
+        self.assertEquals(len(out), 5)
