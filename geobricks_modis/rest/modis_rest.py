@@ -3,6 +3,7 @@ from flask import Blueprint
 from flask import Response
 from flask.ext.cors import cross_origin
 from geobricks_modis.core import modis_core as m
+from geobricks_modis.resources.modis_schema import schema
 
 
 modis = Blueprint('modis', __name__)
@@ -15,12 +16,7 @@ def discovery():
     Discovery service available for all Geobricks libraries that describes the plug-in.
     @return: Dictionary containing information about the service.
     """
-    out = {
-        'name': 'MODIS',
-        'description': 'Core functionalities and services for MODIS products.',
-        'type': 'DATASOURCE'
-    }
-    return Response(json.dumps(out), content_type='application/json; charset=utf-8')
+    return Response(json.dumps(schema), content_type='application/json; charset=utf-8')
 
 
 @modis.route('/')

@@ -14,8 +14,8 @@ class GeobricksModisRestTest(unittest.TestCase):
     def test_discovery(self):
         response = self.tester.get('/modis/discovery/', content_type='application/json')
         out = json.loads(response.data)
-        self.assertEquals(out['name'], 'MODIS')
-        self.assertEquals(out['type'], 'DATASOURCE')
+        self.assertEquals(out['title'], 'MODIS')
+        self.assertEquals(out['properties']['service_type']['default'], 'DATASOURCE')
 
     def test_list_products_service(self):
         response = self.tester.get('/modis/', content_type='application/json')
