@@ -2,7 +2,7 @@ schema = {
     "$schema": "http://json-schema.org/draft-04/schema#",
     "type": "object",
     "title": "MODIS",
-    "description": "MODIS plug-in for Geobricks downloader.",
+    "description": "MODerate resolution Imaging Spectroradiometer.",
     "definitions": {
         "href": {
             "title": "Endpoint",
