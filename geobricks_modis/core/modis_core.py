@@ -4,6 +4,7 @@ from ftplib import FTP
 from bs4 import BeautifulSoup
 from geobricks_modis.config.gaul2modis import countries_map
 from geobricks_modis.config.modis_config import config as conf
+from geobricks_modis.config.modis_temporal_resolutions import resolutions
 
 
 def get_modis_product_table():
@@ -34,6 +35,10 @@ def get_modis_product_table():
                     text = td.find('a').find(text=True)
                 p[keys[counter]] = text
                 counter += 1
+            try:
+                p['temporal_resolution'] = resolutions[p['code']]
+            except KeyError:
+                pass
             p['label'] = p['code'] + ': ' + p['modis_data_product'] + ' (' + p['spatial_resolution'] + ')'
             products.append(p)
         return products
@@ -160,6 +165,7 @@ def list_layers(product_name, year, day):
     return out
 
 
+# TODO: Modify to support CMG file names.
 def list_layers_subset(product_name, year, day, from_h, to_h, from_v, to_v):
     """
     List all the available layers for a given MODIS product, year and day.

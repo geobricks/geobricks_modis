@@ -3,7 +3,7 @@ from flask import Blueprint
 from flask import Response
 from flask.ext.cors import cross_origin
 from geobricks_modis.core import modis_core as m
-from geobricks_modis.resources.modis_schema import schema
+from geobricks_modis.resources.schemas.modis_schema import schema
 
 
 modis = Blueprint('modis', __name__)
