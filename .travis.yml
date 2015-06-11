@@ -4,6 +4,7 @@ python:
 install:
   - "pip install -r requirements.txt"
   - "pip install pytest pytest-cov"
+  - "pip install coveralls"
   - "pip install -e ."
 script:
   - py.test --cov geobricks_modis_test/core/test_modis_core.py --cov-report term-missing
