@@ -1,5 +1,6 @@
 [![PyPI version](https://badge.fury.io/py/GeobricksMODIS.svg)](http://badge.fury.io/py/GeobricksMODIS)
 [![Build Status](https://travis-ci.org/geobricks/geobricks_modis.svg)](https://travis-ci.org/geobricks/geobricks_modis)
+[![Coverage Status](https://coveralls.io/repos/geobricks/geobricks_modis/badge.svg?branch=development)](https://coveralls.io/r/geobricks/geobricks_modis?branch=development)
 
 Geobricks MODIS
 ===============
