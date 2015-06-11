@@ -139,6 +139,12 @@ def list_days(product_name, year):
         return out
 
 
+def get_raster_type(product_name):
+    for p in get_modis_product_table():
+        if p['code'] == product_name:
+            return p['raster_type']
+
+
 # TODO: Modify to support CMG file names.
 def list_layers(product_name, year, day):
     """
@@ -151,6 +157,7 @@ def list_layers(product_name, year, day):
     @type day: str | int
     @return: An array of code/label/size objects.
     """
+    raster_type = get_raster_type(product_name)
     year = year if type(year) is str else str(year)
     day = day if type(day) is str else str(day)
     day = '00' + day if len(day) == 1 else day
@@ -178,9 +185,12 @@ def list_layers(product_name, year, day):
                 file_path = 'ftp://' + conf['source']['ftp']['base_url'] + conf['source']['ftp']['data_dir']
                 file_path += product_name.upper() + '/' + year + '/' + day + '/'
                 file_path += line[start:]
-                h = file_name[2 + file_name.index('.h'):4 + file_name.index('.h')]
-                v = file_name[1 + file_name.index('v'):3 + file_name.index('v')]
-                label = 'H ' + h + ', V ' + v + ' (' + str(round((float(size) / 1000000), 2)) + ' MB)'
+                if raster_type == 'Tile':
+                    h = file_name[2 + file_name.index('.h'):4 + file_name.index('.h')]
+                    v = file_name[1 + file_name.index('v'):3 + file_name.index('v')]
+                    label = 'H ' + h + ', V ' + v + ' (' + str(round((float(size) / 1000000), 2)) + ' MB)'
+                else:
+                    label = '(' + str(round((float(size) / 1000000), 2)) + ' MB)'
                 out.append({
                     'file_name': file_name,
                     'file_path': file_path,
@@ -212,6 +222,7 @@ def list_layers_subset(product_name, year, day, from_h, to_h, from_v, to_v):
     @type to_v: str | int
     @return: An array of code/label/size objects.
     """
+    raster_type = get_raster_type(product_name)
     year = year if type(year) is str else str(year)
     day = day if type(day) is str else str(day)
     day = '00' + day if len(day) == 1 else day
@@ -245,13 +256,25 @@ def list_layers_subset(product_name, year, day, from_h, to_h, from_v, to_v):
                 file_name = line[start:]
                 if file_name not in tmp_buffer:
                     tmp_buffer.append(file_name)
-                    if is_layer_in_the_range(file_name, from_h, to_h, from_v, to_v):
+                    if raster_type == 'Tile':
+                        if is_layer_in_the_range(file_name, from_h, to_h, from_v, to_v):
+                            file_path = 'ftp://' + conf['source']['ftp']['base_url'] + conf['source']['ftp']['data_dir']
+                            file_path += product_name.upper() + '/' + year + '/' + day + '/'
+                            file_path += line[start:]
+                            h = file_name[2 + file_name.index('.h'):4 + file_name.index('.h')]
+                            v = file_name[1 + file_name.index('v'):3 + file_name.index('v')]
+                            label = 'H ' + h + ', V ' + v + ' (' + str(round((float(size) / 1000000), 2)) + ' MB)'
+                            out.append({
+                                'file_name': file_name,
+                                'file_path': file_path,
+                                'label': label,
+                                'size': None
+                            })
+                    else:
                         file_path = 'ftp://' + conf['source']['ftp']['base_url'] + conf['source']['ftp']['data_dir']
                         file_path += product_name.upper() + '/' + year + '/' + day + '/'
                         file_path += line[start:]
-                        h = file_name[2 + file_name.index('.h'):4 + file_name.index('.h')]
-                        v = file_name[1 + file_name.index('v'):3 + file_name.index('v')]
-                        label = 'H ' + h + ', V ' + v + ' (' + str(round((float(size) / 1000000), 2)) + ' MB)'
+                        label = '(' + str(round((float(size) / 1000000), 2)) + ' MB)'
                         out.append({
                             'file_name': file_name,
                             'file_path': file_path,
