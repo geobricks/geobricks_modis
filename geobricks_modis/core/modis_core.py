@@ -1,9 +1,12 @@
 import urllib
 import datetime
+import json
+import os
 from ftplib import FTP
 from bs4 import BeautifulSoup
 from geobricks_modis.config.gaul2modis import countries_map
 from geobricks_modis.config.modis_config import config as conf
+from geobricks_modis.config.modis_temporal_resolutions import resolutions
 
 
 def get_modis_product_table():
@@ -11,7 +14,20 @@ def get_modis_product_table():
     Parse the MODIS product list.
     @return: Dictionary with the MODIS product list.
     """
-    sock = urllib.urlopen('https://lpdaac.usgs.gov/products/modis_products_table')
+    data = None
+    try:
+        with open('../resources/json/modis_product_table.json') as product_table:
+            data = json.load(product_table)
+    except ValueError:
+        data = create_modis_product_table_file()
+    except IOError:
+        data = create_modis_product_table_file()
+    return data
+
+
+def create_modis_product_table_file():
+    # sock = urllib.urlopen('https://lpdaac.usgs.gov/products/modis_products_table')
+    sock = urllib.urlopen('http://fenixapps.fao.org/repository/MODIS_PRODUCT_TABLE/index.html')
     html = sock.read()
     sock.close()
     soup = BeautifulSoup(html)
@@ -32,10 +48,25 @@ def get_modis_product_table():
                 text = ''.join(td.find(text=True)).strip().replace('\n', '')
                 if counter == 0:
                     text = td.find('a').find(text=True)
-                p[keys[counter]] = text
-                counter += 1
+                try:
+                    p[keys[counter]] = text
+                    counter += 1
+                except IndexError:
+                    pass
+            try:
+                p['temporal_resolution'] = resolutions[p['code']]
+            except KeyError:
+                pass
             p['label'] = p['code'] + ': ' + p['modis_data_product'] + ' (' + p['spatial_resolution'] + ')'
             products.append(p)
+        try:
+            with open('../resources/json/modis_product_table.json', 'w+') as product_table:
+                json.dump(products, product_table)
+        except IOError:
+            if not os.path.exists('../resources/json'):
+                os.makedirs('../resources/json')
+            with open('../resources/json/modis_product_table.json', 'w+') as product_table:
+                json.dump(products, product_table)
         return products
 
 
@@ -108,6 +139,13 @@ def list_days(product_name, year):
         return out
 
 
+def get_raster_type(product_name):
+    for p in get_modis_product_table():
+        if p['code'] == product_name:
+            return p['raster_type']
+
+
+# TODO: Modify to support CMG file names.
 def list_layers(product_name, year, day):
     """
     List all the available layers for a given MODIS product, year and day.
@@ -119,6 +157,7 @@ def list_layers(product_name, year, day):
     @type day: str | int
     @return: An array of code/label/size objects.
     """
+    raster_type = get_raster_type(product_name)
     year = year if type(year) is str else str(year)
     day = day if type(day) is str else str(day)
     day = '00' + day if len(day) == 1 else day
@@ -146,9 +185,12 @@ def list_layers(product_name, year, day):
                 file_path = 'ftp://' + conf['source']['ftp']['base_url'] + conf['source']['ftp']['data_dir']
                 file_path += product_name.upper() + '/' + year + '/' + day + '/'
                 file_path += line[start:]
-                h = file_name[2 + file_name.index('.h'):4 + file_name.index('.h')]
-                v = file_name[1 + file_name.index('v'):3 + file_name.index('v')]
-                label = 'H ' + h + ', V ' + v + ' (' + str(round((float(size) / 1000000), 2)) + ' MB)'
+                if raster_type == 'Tile':
+                    h = file_name[2 + file_name.index('.h'):4 + file_name.index('.h')]
+                    v = file_name[1 + file_name.index('v'):3 + file_name.index('v')]
+                    label = 'H ' + h + ', V ' + v + ' (' + str(round((float(size) / 1000000), 2)) + ' MB)'
+                else:
+                    label = '(' + str(round((float(size) / 1000000), 2)) + ' MB)'
                 out.append({
                     'file_name': file_name,
                     'file_path': file_path,
@@ -160,6 +202,7 @@ def list_layers(product_name, year, day):
     return out
 
 
+# TODO: Modify to support CMG file names.
 def list_layers_subset(product_name, year, day, from_h, to_h, from_v, to_v):
     """
     List all the available layers for a given MODIS product, year and day.
@@ -179,6 +222,7 @@ def list_layers_subset(product_name, year, day, from_h, to_h, from_v, to_v):
     @type to_v: str | int
     @return: An array of code/label/size objects.
     """
+    raster_type = get_raster_type(product_name)
     year = year if type(year) is str else str(year)
     day = day if type(day) is str else str(day)
     day = '00' + day if len(day) == 1 else day
@@ -212,13 +256,25 @@ def list_layers_subset(product_name, year, day, from_h, to_h, from_v, to_v):
                 file_name = line[start:]
                 if file_name not in tmp_buffer:
                     tmp_buffer.append(file_name)
-                    if is_layer_in_the_range(file_name, from_h, to_h, from_v, to_v):
+                    if raster_type == 'Tile':
+                        if is_layer_in_the_range(file_name, from_h, to_h, from_v, to_v):
+                            file_path = 'ftp://' + conf['source']['ftp']['base_url'] + conf['source']['ftp']['data_dir']
+                            file_path += product_name.upper() + '/' + year + '/' + day + '/'
+                            file_path += line[start:]
+                            h = file_name[2 + file_name.index('.h'):4 + file_name.index('.h')]
+                            v = file_name[1 + file_name.index('v'):3 + file_name.index('v')]
+                            label = 'H ' + h + ', V ' + v + ' (' + str(round((float(size) / 1000000), 2)) + ' MB)'
+                            out.append({
+                                'file_name': file_name,
+                                'file_path': file_path,
+                                'label': label,
+                                'size': None
+                            })
+                    else:
                         file_path = 'ftp://' + conf['source']['ftp']['base_url'] + conf['source']['ftp']['data_dir']
                         file_path += product_name.upper() + '/' + year + '/' + day + '/'
                         file_path += line[start:]
-                        h = file_name[2 + file_name.index('.h'):4 + file_name.index('.h')]
-                        v = file_name[1 + file_name.index('v'):3 + file_name.index('v')]
-                        label = 'H ' + h + ', V ' + v + ' (' + str(round((float(size) / 1000000), 2)) + ' MB)'
+                        label = '(' + str(round((float(size) / 1000000), 2)) + ' MB)'
                         out.append({
                             'file_name': file_name,
                             'file_path': file_path,
