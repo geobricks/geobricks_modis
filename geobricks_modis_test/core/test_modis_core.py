@@ -28,11 +28,6 @@ class GeobricksModisTest(unittest.TestCase):
         layers = c.list_layers_subset('MOD13A2', '2010', '001', 5, 7, 3, 9)
         self.assertEqual(len(layers), 5)
 
-    # def test_list_layers_subset_2(self):
-    #     layers = c.list_layers_subset('MYD11C1', '2015', '001', 5, 7, 3, 9)
-    #     print layers
-    #     self.assertEqual(len(layers), 5)
-
     def test_list_layers_countries_subset(self):
         layers = c.list_layers_countries_subset('MOD13A2', '2010', '001', '8,IT,fra')
         self.assertEqual(len(layers), 12)

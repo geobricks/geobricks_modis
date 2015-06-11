@@ -1,5 +1,7 @@
 import urllib
 import datetime
+import json
+import os
 from ftplib import FTP
 from bs4 import BeautifulSoup
 from geobricks_modis.config.gaul2modis import countries_map
@@ -12,7 +14,20 @@ def get_modis_product_table():
     Parse the MODIS product list.
     @return: Dictionary with the MODIS product list.
     """
-    sock = urllib.urlopen('https://lpdaac.usgs.gov/products/modis_products_table')
+    data = None
+    try:
+        with open('../resources/json/modis_product_table.json') as product_table:
+            data = json.load(product_table)
+    except ValueError:
+        data = create_modis_product_table_file()
+    except IOError:
+        data = create_modis_product_table_file()
+    return data
+
+
+def create_modis_product_table_file():
+    # sock = urllib.urlopen('https://lpdaac.usgs.gov/products/modis_products_table')
+    sock = urllib.urlopen('http://fenixapps.fao.org/repository/MODIS_PRODUCT_TABLE/index.html')
     html = sock.read()
     sock.close()
     soup = BeautifulSoup(html)
@@ -33,14 +48,25 @@ def get_modis_product_table():
                 text = ''.join(td.find(text=True)).strip().replace('\n', '')
                 if counter == 0:
                     text = td.find('a').find(text=True)
-                p[keys[counter]] = text
-                counter += 1
+                try:
+                    p[keys[counter]] = text
+                    counter += 1
+                except IndexError:
+                    pass
             try:
                 p['temporal_resolution'] = resolutions[p['code']]
             except KeyError:
                 pass
             p['label'] = p['code'] + ': ' + p['modis_data_product'] + ' (' + p['spatial_resolution'] + ')'
             products.append(p)
+        try:
+            with open('../resources/json/modis_product_table.json', 'w+') as product_table:
+                json.dump(products, product_table)
+        except IOError:
+            if not os.path.exists('../resources/json'):
+                os.makedirs('../resources/json')
+            with open('../resources/json/modis_product_table.json', 'w+') as product_table:
+                json.dump(products, product_table)
         return products
 
 
