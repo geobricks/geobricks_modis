@@ -5,6 +5,6 @@ install:
   - "pip install -r requirements.txt"
   - "pip install pytest pytest-cov"
 script:
-  - py.test --cov rasterio --cov-report term-missing
+  - py.test --cov geobricks_modis_test/core/test_modis_core.py --cov-report term-missing
 after_success:
   - coveralls
