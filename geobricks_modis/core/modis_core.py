@@ -113,6 +113,7 @@ def list_days(product_name, year):
         return out
 
 
+# TODO: Modify to support CMG file names.
 def list_layers(product_name, year, day):
     """
     List all the available layers for a given MODIS product, year and day.
