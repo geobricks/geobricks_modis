@@ -11,11 +11,11 @@ class GeobricksModisRestTest(unittest.TestCase):
         self.app.register_blueprint(modis, url_prefix='/modis')
         self.tester = self.app.test_client(self)
 
-    # def test_discovery(self):
-    #     response = self.tester.get('/modis/discovery/', content_type='application/json')
-    #     out = json.loads(response.data)
-    #     self.assertEquals(out['title'], 'MODIS')
-    #     self.assertEquals(out['properties']['service_type']['default'], 'DATASOURCE')
+    def test_discovery(self):
+        response = self.tester.get('/modis/discovery/', content_type='application/json')
+        out = json.loads(response.data)
+        self.assertEquals(out['title'], 'MODIS')
+        self.assertEquals(out['properties']['service_type']['default'], 'DATASOURCE')
 
     def test_list_products_service(self):
         response = self.tester.get('/modis/', content_type='application/json')
