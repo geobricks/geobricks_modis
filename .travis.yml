@@ -7,6 +7,6 @@ install:
   - "pip install coveralls"
   - "pip install -e ."
 script:
-  - py.test --cov geobricks_modis/core geobricks_modis/rest --cov-report term-missing
+  - py.test --cov geobricks_modis/core --cov-report term-missing
 after_success:
   - coveralls
