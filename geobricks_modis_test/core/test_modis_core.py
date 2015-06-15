@@ -55,4 +55,4 @@ class GeobricksModisTest(unittest.TestCase):
 
     def test_list_countries(self):
         out = c.list_countries()
-        self.assertEquals(len(out), 277)
+        self.assertEquals(len(out), 278)

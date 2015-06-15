@@ -50,4 +50,4 @@ class GeobricksModisRestTest(unittest.TestCase):
     def test_list_countries(self):
         response = self.tester.get('/modis/countries/', content_type='application/json')
         out = json.loads(response.data)
-        self.assertEquals(len(out), 277)
+        self.assertEquals(len(out), 278)
