@@ -1,5 +1,15 @@
 countries_map = [
     {
+        "to_v": 6,
+        "iso2_code": None,
+        "from_h": 19,
+        "gaul_label": "ECO Countries",
+        "gaul_code": None,
+        "iso3_code": "ECO",
+        "from_v": 3,
+        "to_h": 24
+    },
+    {
         "to_v": 35,
         "iso2_code": None,
         "from_h": 0,

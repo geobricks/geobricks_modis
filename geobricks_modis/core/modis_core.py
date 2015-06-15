@@ -145,7 +145,6 @@ def get_raster_type(product_name):
             return p['raster_type']
 
 
-# TODO: Modify to support CMG file names.
 def list_layers(product_name, year, day):
     """
     List all the available layers for a given MODIS product, year and day.
@@ -202,7 +201,6 @@ def list_layers(product_name, year, day):
     return out
 
 
-# TODO: Modify to support CMG file names.
 def list_layers_subset(product_name, year, day, from_h, to_h, from_v, to_v):
     """
     List all the available layers for a given MODIS product, year and day.
