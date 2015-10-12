@@ -2,6 +2,7 @@ import urllib
 import datetime
 import json
 import os
+import time
 from ftplib import FTP
 from bs4 import BeautifulSoup
 from geobricks_modis.config.gaul2modis import countries_map
@@ -168,34 +169,111 @@ def list_layers(product_name, year, day):
     ftp.cwd(year)
     ftp.cwd(day)
     ls = []
-    ftp.retrlines('MLSD', ls.append)
+    #ftp.retrlines('MLSD', ls.append)
+    ftp.retrlines('LIST', ls.append)
     ftp.quit()
     out = []
     tmp_buffer = []
+
+    #ADDED BY Z4K
+    def iff( test_, then_, else_ ): # then_, else_ always get evaled so pls be atoms
+        if test_:
+            return then_
+        else:
+            return else_
+
+    curr_year_fmt, prev_year_fmt, unified_fmt = '%b %d %H:%M', '%b %d  %Y', '%Y-%m-%d-%H:%M'
+
+    def updatetuple( t, i, x ): # insert x into the ith field of tuple, t
+        l = list( t )
+        return tuple( l[:i] + [x] + l[i+1:] )
+
+    def parsePrevYear( date ): return time.strptime( date, prev_year_fmt )
+    def parseCurrYear( date ):
+        datewith1900 = time.strptime( date, curr_year_fmt )
+        currentYear  = time.gmtime()[0]
+        return updatetuple( datewith1900, 0, currentYear )
+
+    def dateParser( date ): return iff( ':' in date, parseCurrYear, parsePrevYear )
+    def parseDate( date ):  return time.mktime( dateParser( date )( date ) )
+
+    def displayDate( date ):
+        date_struct, curr_struct = time.gmtime( date ), time.gmtime()
+        date_year, curr_year = date_struct[0], curr_struct[0]
+        year_fmt = iff( date_year == curr_year, curr_year_fmt, prev_year_fmt )
+        return time.strftime( year_fmt, date_struct )
+
+    R_MSK, W_MSK, X_MSK, Z_MSK =   4,   2,   1,   0
+    R_STR, W_STR, X_STR, Z_STR = 'r', 'w', 'x', '-'
+
+    def str2mode( str ):
+        r, w, x = str[0] == R_STR,  str[1] == W_STR,  str[2] == X_STR
+        return iff( r, R_MSK, Z_MSK ) | iff( w, W_MSK, Z_MSK ) | iff( x, X_MSK, Z_MSK )
+
+    def mode2str( mode ):
+        r, w, x = mode & R_MSK, mode & W_MSK, mode & X_MSK
+        return iff( r, R_STR, Z_STR ) + iff( w, W_STR, Z_STR ) + iff( x, X_STR, Z_STR )
+
+    def str2fullmode( str ):
+        u, g, o = str[0:3], str[3:6], str[6:9]
+        return str2mode( u ) << 6 | str2mode( g ) << 3 | str2mode( o )
+
+    def fullmode2str( mode ):
+        u, g, o = mode >> 6 & 0x7, mode >> 3 & 0x7, mode & 0x7
+        return mode2str( u ) + mode2str( g ) + mode2str( o )
+
+    def str2perm( str ):
+        return str[0] == 'd', str[0] == 'l', str2fullmode( str[1:] )
+
+    def perm2str( isdir, islink, mode ):
+        return iff( isdir, 'd', iff( islink, 'l', '-' ) ) + fullmode2str( mode )
+
+    def extract_info( line ):
+        fullmode, links, owner, group, size, rest = line.split( None, 5 )
+        isdir, islink, mode = str2perm( fullmode )
+        dateStr, name = rest[:12], rest[13:]
+        date = parseDate( dateStr )
+        return {
+            'name': name,
+            'perms': fullmode,
+            'isdir': isdir, 'islink': islink,
+            'mode': mode, 'links': int( links ),
+            'owner': owner, 'group': group,
+            'size': int( size ),
+            'datestr': dateStr, 'date': date
+        }
+
     for line in ls:
         try:
-            start = line.index('Size=')
-            end = line.index(';', start)
-            size = line[start + len('Size='):end]
-            start = line.index(product_name.upper())
-            file_name = line[start:]
+            # start = line.index('Size=')
+            # end = line.index(';', start)
+            # size = line[start + len('Size='):end]
+            # start = line.index(product_name.upper())
+            # file_name = line[start:]
+            info = extract_info(line)
+            #print info
+            size = info["size"]
+            file_name = info["name"]
             if file_name not in tmp_buffer:
                 tmp_buffer.append(file_name)
                 file_path = 'ftp://' + conf['source']['ftp']['base_url'] + conf['source']['ftp']['data_dir']
                 file_path += product_name.upper() + '/' + year + '/' + day + '/'
-                file_path += line[start:]
+                #file_path += line[start:]
+                file_path += file_name
                 if raster_type == 'Tile':
                     h = file_name[2 + file_name.index('.h'):4 + file_name.index('.h')]
                     v = file_name[1 + file_name.index('v'):3 + file_name.index('v')]
                     label = 'H ' + h + ', V ' + v + ' (' + str(round((float(size) / 1000000), 2)) + ' MB)'
                 else:
                     label = '(' + str(round((float(size) / 1000000), 2)) + ' MB)'
-                out.append({
+                row = {
                     'file_name': file_name,
                     'file_path': file_path,
                     'label': label,
                     'size': None
-                })
+                }
+                print row
+                out.append(row)
         except ValueError:
             pass
     return out
@@ -241,7 +319,8 @@ def list_layers_subset(product_name, year, day, from_h, to_h, from_v, to_v):
         ftp.cwd(year)
         ftp.cwd(day)
         ls = []
-        ftp.retrlines('MLSD', ls.append)
+        #ftp.retrlines('MLSD', ls.append)
+        ftp.retrlines('LIST', ls.append)
         ftp.quit()
         out = []
         tmp_buffer = []
@@ -473,3 +552,4 @@ def day_of_the_year_to_date(day, year):
     first_of_year = datetime.datetime(int(year), 1, 1).replace(month=1, day=1)
     ordinal = first_of_year.toordinal() - 1 + int(day)
     return datetime.date.fromordinal(ordinal)
+__author__ = 'z4k'
