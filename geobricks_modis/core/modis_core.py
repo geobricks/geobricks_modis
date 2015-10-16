@@ -352,7 +352,8 @@ def list_layers_subset(product_name, year, day, from_h, to_h, from_v, to_v):
                     else:
                         file_path = 'ftp://' + conf['source']['ftp']['base_url'] + conf['source']['ftp']['data_dir']
                         file_path += product_name.upper() + '/' + year + '/' + day + '/'
-                        file_path += line[start:]
+                        #file_path += line[start:]
+                        file_path += file_name
                         label = '(' + str(round((float(size) / 1000000), 2)) + ' MB)'
                         out.append({
                             'file_name': file_name,
