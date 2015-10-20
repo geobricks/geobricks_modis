@@ -9,8 +9,9 @@ from geobricks_modis.config.gaul2modis import countries_map
 from geobricks_modis.config.modis_config import config as conf
 from geobricks_modis.config.modis_temporal_resolutions import resolutions
 
-#ADDED BY Z4K
-#TODO make a class for extract_info() method
+#START extract_info  funcs deps
+# TODO make a class for extract_info() method
+
 def iff( test_, then_, else_ ): # then_, else_ always get evaled so pls be atoms
     if test_:
         return then_
@@ -76,6 +77,8 @@ def extract_info( line ):
         'datestr': dateStr, 'date': date,
         'size': int(size)
     }
+
+#END extract_info() funcs deps
 
 def get_modis_product_table():
     """
